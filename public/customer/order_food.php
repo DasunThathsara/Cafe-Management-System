@@ -14,7 +14,7 @@ if (isset($_GET['cafe_id'])){
 }
 
 $foods = $stmt->fetchAll(PDO::FETCH_ASSOC);
-print_r($foods[0]);
+//print_r($foods[0]);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_food_id']) && isset($_POST['order_manager_id'])) {
     $stmt = $pdo->prepare("INSERT INTO orders (customer_id, food_ids, status, manager_id) VALUES (:customer_id, :food_ids, 'PENDING', :manager_id)");
