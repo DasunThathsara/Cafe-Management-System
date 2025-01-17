@@ -35,35 +35,137 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<h2>View Tables</h2>
-<a href="./add_table.php">Add Food</a>
-<table border="1">
-    <tr>
-        <th>ID</th>
-        <th>Table Number</th>
-        <th>Capacity</th>
-        <th>Status</th>
-        <th>Actions</th>
-    </tr>
-    <?php foreach ($tables as $table): ?>
-        <tr>
-            <td><?= $table['id'] ?></td>
-            <td><?= $table['table_number'] ?></td>
-            <td><?= $table['seats'] ?></td>
-            <td><?= $table['status'] ?></td>
-            <td>
-                <!-- Delete Form -->
-                <form method="post" style="display:inline;">
-                    <input type="hidden" name="table_id" value="<?= $table['id'] ?>">
-                    <button type="submit" name="delete_table">Delete</button>
-                </form>
+<style>
+    h2 {
+        text-align: center;
+        color: #ff8c00;
+        margin: 20px 0;
+        font-size: 2rem;
+    }
 
-                <!-- Update Button -->
-                <button type="button" onclick="openUpdateForm(<?= htmlspecialchars(json_encode($table)) ?>)">Update</button>
-            </td>
-        </tr>
-    <?php endforeach; ?>
-</table>
+    table {
+        width: 90%;
+        margin: 20px auto;
+        border-collapse: collapse;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    th, td {
+        padding: 12px 15px;
+        text-align: center;
+        border: 1px solid #ffc966;
+    }
+
+    th {
+        background-color: #ff9900;
+        color: white;
+        font-weight: bold;
+    }
+
+    td {
+        background-color: #ffebcc;
+        color: #555;
+    }
+
+    tr:hover {
+        background-color: #ffe0b3;
+    }
+
+    .btn-4, button {
+        width: 80px;
+        background-color: #ff8c00;
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+        margin: 5px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-4:hover, button:hover {
+        background-color: #e07b00;
+    }
+
+    @media (max-width: 768px) {
+        table {
+            font-size: 0.9rem;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+        }
+    }
+
+    .container{
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+
+    footer{
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+    }
+
+    .cafe-section{
+        margin-top: 100px;
+        height: 100%;
+        width: 1000px;
+        border-radius: 20px;
+        box-shadow: 0 0 10px 0.1px rgba(0, 0, 0, 0.16);
+    }
+
+    .table-container{
+        width: 100%;
+        height: 100%;
+        overflow: scroll;
+    }
+</style>
+
+<div class="container">
+    <div class="cafe-section">
+        <h2>Tables</h2>
+        <div class="table-container">
+            <div style="display: flex; justify-content: end; margin-right: 45px;">
+                <a class="btn-4" href="./add_table.php">Add Table</a>
+            </div>
+            <table border="1">
+                <tr>
+                    <th>ID</th>
+                    <th>Table Number</th>
+                    <th>Capacity</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+                <?php foreach ($tables as $table): ?>
+                    <tr>
+                        <td><?= $table['id'] ?></td>
+                        <td><?= $table['table_number'] ?></td>
+                        <td><?= $table['seats'] ?></td>
+                        <td><?= $table['status'] ?></td>
+                        <td>
+                            <!-- Delete Form -->
+                            <form method="post" style="display:inline;">
+                                <input type="hidden" name="table_id" value="<?= $table['id'] ?>">
+                                <button type="submit" name="delete_table">Delete</button>
+                            </form>
+
+                            <!-- Update Button -->
+                            <button type="button" onclick="openUpdateForm(<?= htmlspecialchars(json_encode($table)) ?>)">Update</button>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </table>
+        </div>
+    </div>
+</div>
 
 <!-- Modal for Update Table -->
 <div id="updateModal" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background-color:white; padding:20px; border:1px solid #ccc; box-shadow:0 0 10px rgba(0,0,0,0.5);">

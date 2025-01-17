@@ -34,35 +34,135 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_order_status']
     exit;
 }
 ?>
-<h2>View Orders</h2>
-<table border="1">
-    <tr>
-        <th>Order ID</th>
-        <th>Customer Name</th>
-        <th>Cafe Name</th>
-        <th>Status</th>
-        <th>Created At</th>
-        <th>Actions</th>
-    </tr>
-    <?php foreach ($orders as $order): ?>
-        <tr>
-            <td><?= $order['id'] ?></td>
-            <td><?= htmlspecialchars($order['customer_name']) ?></td>
-            <td><?= htmlspecialchars($order['cafe_name'], 2) ?></td>
-            <td><?= htmlspecialchars($order['status']) ?></td>
-            <td><?= $order['created_at'] ?></td>
-            <td>
-                <form method="post">
-                    <input type="hidden" name="order_id" value="<?= $order['id'] ?>">
-                    <select name="status" required>
-                        <option value="PENDING" <?= $order['status'] === 'PENDING' ? 'selected' : '' ?>>Pending</option>
-                        <option value="PROCESSING" <?= $order['status'] === 'PROCESSING' ? 'selected' : '' ?>>Processing</option>
-                        <option value="COMPLETED" <?= $order['status'] === 'COMPLETED' ? 'selected' : '' ?>>Completed</option>
-                    </select>
-                    <button type="submit" name="update_order_status">Update</button>
-                </form>
-            </td>
-        </tr>
-    <?php endforeach; ?>
-</table>
+<style>
+    h2 {
+        text-align: center;
+        color: #ff8c00;
+        margin: 20px 0;
+        font-size: 2rem;
+    }
+
+    table {
+        width: 90%;
+        margin: 20px auto;
+        border-collapse: collapse;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    th, td {
+        padding: 12px 15px;
+        text-align: center;
+        border: 1px solid #ffc966;
+    }
+
+    th {
+        background-color: #ff9900;
+        color: white;
+        font-weight: bold;
+    }
+
+    td {
+        background-color: #ffebcc;
+        color: #555;
+    }
+
+    tr:hover {
+        background-color: #ffe0b3;
+    }
+
+    .btn-4, button {
+        width: 80px;
+        background-color: #ff8c00;
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+        margin: 5px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-4:hover, button:hover {
+        background-color: #e07b00;
+    }
+
+    @media (max-width: 768px) {
+        table {
+            font-size: 0.9rem;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+        }
+    }
+
+    .container{
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+
+    footer{
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+    }
+
+    .cafe-section{
+        margin-top: 100px;
+        height: 100%;
+        width: 1000px;
+        border-radius: 20px;
+        box-shadow: 0 0 10px 0.1px rgba(0, 0, 0, 0.16);
+    }
+
+    .table-container{
+        width: 100%;
+        height: 100%;
+        overflow: scroll;
+    }
+</style>
+
+<div class="container">
+    <div class="cafe-section">
+        <h2>Orders</h2>
+        <div class="table-container">
+            <table border="1">
+                <tr>
+                    <th>Order ID</th>
+                    <th>Customer Name</th>
+                    <th>Cafe Name</th>
+                    <th>Status</th>
+                    <th>Created At</th>
+                    <th>Actions</th>
+                </tr>
+                <?php foreach ($orders as $order): ?>
+                    <tr>
+                        <td><?= $order['id'] ?></td>
+                        <td><?= htmlspecialchars($order['customer_name']) ?></td>
+                        <td><?= htmlspecialchars($order['cafe_name'], 2) ?></td>
+                        <td><?= htmlspecialchars($order['status']) ?></td>
+                        <td><?= $order['created_at'] ?></td>
+                        <td>
+                            <form method="post">
+                                <input type="hidden" name="order_id" value="<?= $order['id'] ?>">
+                                <select name="status" required>
+                                    <option value="PENDING" <?= $order['status'] === 'PENDING' ? 'selected' : '' ?>>Pending</option>
+                                    <option value="PROCESSING" <?= $order['status'] === 'PROCESSING' ? 'selected' : '' ?>>Processing</option>
+                                    <option value="COMPLETED" <?= $order['status'] === 'COMPLETED' ? 'selected' : '' ?>>Completed</option>
+                                </select>
+                                <button type="submit" name="update_order_status">Update</button>
+                            </form>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </table>
+        </div>
+    </div>
+</div>
 <?php require_once '../../includes/footer.php'; ?>

@@ -60,9 +60,8 @@ function render_meal_card($res)
             margin-top: 10px;
         }
         .btn-3 {
-
             flex-direction: column;
-            padding: 10px 15px;
+            padding: 10px 50px;
             font-size: 14px;
             font-weight: bold;
             color: #fff;
