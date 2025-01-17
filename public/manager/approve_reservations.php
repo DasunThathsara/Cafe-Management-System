@@ -128,6 +128,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         overflow: scroll;
     }
 </style>
+
 <div class="container">
     <div class="cafe-section">
         <h2>Reservations</h2>
