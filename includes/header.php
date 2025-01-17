@@ -109,7 +109,7 @@ if (session_status() == PHP_SESSION_NONE) {
                     <li><a href="../../public/manager/view_foods.php">Foods</a></li>
                     <li><a href="../../public/manager/view_orders.php">Orders</a></li>
                     <li><a href="../../public/manager/view_tables.php">Tables</a></li>
-                    <li><a href="../../public/manager/make_reservation.php">Reservation</a></li>
+                    <li><a href="../../public/manager/approve_reservations.php">Reservation</a></li>
                     <li><a href="../../public/manager/view_complaints.php">Complaints</a></li>
                     <li><a href="/gallery_cafe/includes/auth.php?logout=true">Logout</a></li>
                 <?php elseif (isset($_SESSION['user_id']) && $_SESSION['role'] == 'admin'): ?>

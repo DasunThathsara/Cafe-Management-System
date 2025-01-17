@@ -7,7 +7,6 @@ require_once '../../includes/header.php';
 $stmt = $pdo->prepare("SELECT * FROM cafes WHERE status = 'APPROVED'");
 $stmt->execute();
 $cafes = $stmt->fetchAll(PDO::FETCH_ASSOC);
-print_r($cafes);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_complaint'])) {
     $stmt = $pdo->prepare("INSERT INTO complaints (customer_id, cafe_id, complaint_text, status) VALUES (:customer_id, :cafe_id, :complaint_text, 'PENDING')");
