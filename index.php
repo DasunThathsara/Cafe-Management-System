@@ -17,9 +17,7 @@ if (session_status() == PHP_SESSION_NONE) {
     <title>Café Management System</title>
     <link rel="icon" href="/gallery_cafe/assets/images/logo.png" type="image/png">
     <link rel="stylesheet" href="/gallery_cafe/assets/css/style.css">
-</head>
-<body>
-<header>
+
     <style>
         header {
             background-color: #333;
@@ -88,7 +86,7 @@ if (session_status() == PHP_SESSION_NONE) {
         }
 
         .search-bar button:hover {
-            background-color:w #d35400;
+            background-color: #d35400;
         }
 
         footer{
@@ -96,6 +94,10 @@ if (session_status() == PHP_SESSION_NONE) {
             bottom: 0;
         }
     </style>
+</head>
+<body>
+<header>
+
 
     <div class="container">
         <div style="display: flex; gap: 12px; align-items: center;">

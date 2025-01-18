@@ -89,60 +89,129 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<h1>Register</h1>
-<?php if (!empty($error)): ?>
-    <p style="color: red;"><?= htmlspecialchars($error); ?></p>
-<?php endif; ?>
-<form method="post" enctype="multipart/form-data" style="padding: 30px">
-    <label for="username">Username:</label>
-    <input type="text" name="username" id="username" required>
-    <br>
+<style>
+    h2 {
+        text-align: center;
+        color: #ff8c00;
+        margin: 20px 0;
+        font-size: 2rem;
+    }
 
-    <label for="first_name">First Name:</label>
-    <input type="text" name="first_name" id="first_name" required>
-    <br>
+    button {
+        background-color: #ff8c00;
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+        margin: 5px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
 
-    <label for="last_name">Last Name:</label>
-    <input type="text" name="last_name" id="last_name" required>
-    <br>
+    button:hover {
+        background-color: #e07b00;
+    }
 
-    <label for="email">Email:</label>
-    <input type="email" name="email" id="email" required>
-    <br>
+    @media (max-width: 768px) {
+        table {
+            font-size: 0.9rem;
+        }
 
-    <label for="password">Password:</label>
-    <input type="password" name="password" id="password" required>
-    <br>
+        h2 {
+            font-size: 1.5rem;
+        }
+    }
 
-    <label for="role">Role:</label>
-    <select name="role" id="role" required onchange="toggleManagerFields()">
-        <option value="customer">Customer</option>
-        <option value="manager">Manager</option>
-        <option value="admin">Admin</option>
-    </select>
-    <br>
+    .container{
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
 
-    <!-- Additional fields for Manager -->
-    <div id="managerFields" style="display: none;">
-        <label for="address">Address:</label>
-        <input type="text" name="address" id="address">
-        <br>
+    footer{
+        position: sticky;
+        bottom: 0;
+        width: 100%;
+    }
 
-        <label for="phone">Phone:</label>
-        <input type="text" name="phone" id="phone">
-        <br>
+    .cafe-section{
+        margin-top: 100px;
+        height: 100%;
+        width: 1000px;
+        border-radius: 20px;
+        box-shadow: 0 0 10px 0.1px rgba(0, 0, 0, 0.16);
+    }
 
-        <label for="cafe_name">Cafe Name:</label>
-        <input type="text" name="cafe_name" id="cafe_name">
-        <br>
+    .table-container{
+        width: 100%;
+        height: 100%;
+        overflow: scroll;
+    }
+</style>
+<div class="container">
+    <div class="cafe-section">
+        <h2>Register</h2>
+        <?php if (!empty($error)): ?>
+            <p style="color: red;"><?= htmlspecialchars($error); ?></p>
+        <?php endif; ?>
+        <form method="post" enctype="multipart/form-data" style="padding: 30px">
+            <label for="username">Username:</label>
+            <input type="text" name="username" id="username" required>
+            <br>
 
-        <label for="image">Upload Image:</label>
-        <input type="file" id="image" name="image" accept="image/*">
+            <label for="first_name">First Name:</label>
+            <input type="text" name="first_name" id="first_name" required>
+            <br>
+
+            <label for="last_name">Last Name:</label>
+            <input type="text" name="last_name" id="last_name" required>
+            <br>
+
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="email" required>
+            <br>
+
+            <label for="password">Password:</label>
+            <input type="password" name="password" id="password" required>
+            <br>
+
+            <label for="role">Role:</label>
+            <select name="role" id="role" required onchange="toggleManagerFields()">
+                <option value="customer">Customer</option>
+                <option value="manager">Manager</option>
+                <option value="admin">Admin</option>
+            </select>
+            <br>
+
+            <!-- Additional fields for Manager -->
+            <div id="managerFields" style="display: none;">
+                <label for="address">Address:</label>
+                <input type="text" name="address" id="address">
+                <br><br>
+
+                <label for="phone">Phone:</label>
+                <input type="text" name="phone" id="phone">
+                <br><br>
+
+                <label for="cafe_name">Cafe Name:</label>
+                <input type="text" name="cafe_name" id="cafe_name">
+                <br><br>
+
+                <label for="image">Upload Image:</label>
+                <input type="file" id="image" name="image" accept="image/*">
+            </div>
+
+            <button type="submit" class="btn-2">Register</button>
+        </form>
+
+        <p style="text-align: center">Already have an account? <a href="login.php">Login</a></p>
     </div>
+</div>
 
-    <button type="submit" class="btn-2">Register</button>
-</form>
-<p>Already have an account? <a href="login.php">Login</a></p>
 <script>
     function toggleManagerFields() {
         const role = document.getElementById('role').value;
@@ -155,3 +224,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 </script>
+
+<?php require_once '../includes/footer.php'; ?>
