@@ -12,6 +12,8 @@ if (session_status() == PHP_SESSION_NONE) {
     <title>Café Management System</title>
     <link rel="icon" href="/gallery_cafe/assets/images/logo.png" type="image/png">
     <link rel="stylesheet" href="/gallery_cafe/assets/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 <body>
 <header>

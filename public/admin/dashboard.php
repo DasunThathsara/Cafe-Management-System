@@ -18,7 +18,6 @@ $stmt = $pdo->query("SELECT COUNT(*) AS total_complaints FROM complaints");
 $totalComplaints = $stmt->fetch(PDO::FETCH_ASSOC)['total_complaints'];
 ?>
 <style>
-    /* Admin Dashboard Styles */
     :root {
         --primary-color: #ff8000;
         --secondary-color: #6c757d;
@@ -31,7 +30,7 @@ $totalComplaints = $stmt->fetch(PDO::FETCH_ASSOC)['total_complaints'];
     .admin-dashboard {
         max-width: 1000px;
         margin: 30px auto;
-        padding: 25px;
+        padding: 50px;
         background-color: var(--card-background);
         border-radius: var(--border-radius);
         box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
@@ -132,7 +131,6 @@ $totalComplaints = $stmt->fetch(PDO::FETCH_ASSOC)['total_complaints'];
         background-color: var(--primary-color);
     }
 
-    /* Responsive Design */
     @media screen and (max-width: 768px) {
         .admin-dashboard {
             padding: 15px;
@@ -154,7 +152,6 @@ $totalComplaints = $stmt->fetch(PDO::FETCH_ASSOC)['total_complaints'];
         }
     }
 
-    /* Dark Mode Support */
     @media (prefers-color-scheme: dark) {
         :root {
             --background-color: #1e1e1e;
@@ -180,7 +177,6 @@ $totalComplaints = $stmt->fetch(PDO::FETCH_ASSOC)['total_complaints'];
         }
     }
 
-    /* Accessibility Enhancements */
     @media (prefers-reduced-motion: reduce) {
         .admin-dashboard,
         .stat-card {
@@ -188,7 +184,6 @@ $totalComplaints = $stmt->fetch(PDO::FETCH_ASSOC)['total_complaints'];
         }
     }
 
-    /* Additional Decorative Elements */
     .admin-dashboard::before {
         content: 'Admin Panel';
         position: absolute;
@@ -202,26 +197,35 @@ $totalComplaints = $stmt->fetch(PDO::FETCH_ASSOC)['total_complaints'];
         font-size: 0.8rem;
     }
 
-    /* Print Styles */
     @media print {
         .admin-dashboard {
             box-shadow: none;
             border: 1px solid #000;
         }
     }
+
+    footer{
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+    }
 </style>
 <div class="admin-dashboard">
     <h2 class="dashboard-title">Admin Dashboard</h2>
     <p class="dashboard-welcome">Welcome, Admin!</p>
     <div class="dashboard-stats">
-        <div class="stat-card">
-            <h3>Total Cafés</h3>
-            <p class="stat-number"><?= $totalCafes ?></p>
-        </div>
-        <div class="stat-card">
-            <h3>Total Complaints</h3>
-            <p class="stat-number"><?= $totalComplaints ?></p>
-        </div>
+        <a href="manage_cafes.php" style="text-decoration: none;">
+            <div class="stat-card">
+                <h3>Total Cafés</h3>
+                <p class="stat-number"><?= $totalCafes ?></p>
+            </div>
+        </a>
+        <a href="view_complaints.php" style="text-decoration: none;">
+            <div class="stat-card">
+                <h3>Total Complaints</h3>
+                <p class="stat-number"><?= $totalComplaints ?></p>
+            </div>
+        </a>
     </div>
 </div>
 <?php require_once '../../includes/footer.php'; ?>

@@ -35,11 +35,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 <style>
-    h2 {
+    .title {
         text-align: center;
-        color: #ff8c00;
-        margin: 20px 0;
-        font-size: 2rem;
+        color: #333;
+        padding: 25px 0;
+        font-size: 2.2rem;
+        background: linear-gradient(to right, #ff8c00, #ff5900);
+        color: white;
+        margin: 0;
+        border-radius: 20px 20px 0 0;
     }
 
     table {
@@ -128,7 +132,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </style>
 <div class="container">
     <div class="cafe-section">
-        <h2>Manage Cafés</h2>
+        <h2 class="title">Manage Cafés</h2>
         <div class="table-container">
             <?php
             require "../components/adminResturantcard.php";

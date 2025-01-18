@@ -42,16 +42,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <style>
     h2 {
         text-align: center;
-        color: #ff8c00;
-        margin: 20px 0;
-        font-size: 2rem;
+        color: #333;
+        padding: 25px 0;
+        font-size: 2.2rem;
+        background: linear-gradient(to right, #ff8c00, #ff5900);
+        color: white;
+        margin: 0;
+        border-radius: 20px 20px 0 0;
     }
 
     button {
-        background-color: #ff8c00;
+        background: linear-gradient(to right, #ff8c00, #ff5900);
         border: none;
         color: white;
-        padding: 10px 20px;
+        padding: 15px 20px;
         text-align: center;
         text-decoration: none;
         display: inline-block;
@@ -115,7 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <label for="password">Password:</label>
             <input type="password" name="password" id="password" required>
             <br>
-            <button type="submit" class="btn-2">Login</button>
+            <button type="submit">Login</button>
         </form>
 
         <p style="text-align: center">Don't have an account? <a href="register.php">Register</a></p>

@@ -11,47 +11,52 @@ function render_meal_card($res)
                 <p class="meal-card__price"><?php echo htmlspecialchars($res['phone']); ?></p>
             </div>
         </div>
-        <?php if($res['status'] == "PENDING"){?>
+        <?php if ($res['status'] == "PENDING") { ?>
             <div class="meal-card_buttons">
-                <form method="post" style="display: inline;">
-                    <input type="hidden" name="cafe_id" value="<?= $res['id'] ?>">
-                    <button type="submit" name="action" class="btn-3" value="approve">Approve</button>
-                </form>
-                <form method="post" style="display: inline;">
-                    <input type="hidden" name="cafe_id" value="<?= $res['id'] ?>">
-                    <button type="submit" name="action" class="btn-3" value="reject">Reject</button>
-                </form>
+                <button type="button" class="btn-3" onclick="confirmAction(<?= $res['id'] ?>, 'approve')">Approve</button>
+                <button type="button" class="btn-3" onclick="confirmAction(<?= $res['id'] ?>, 'reject')">Reject</button>
             </div>
-        <?php } elseif($res['status'] == "APPROVED"){?>
+        <?php } elseif ($res['status'] == "APPROVED") { ?>
             <div class="meal-card_buttons">
-                <form method="post" style="display: inline;">
-                    <input type="hidden" name="cafe_id" value="<?= $res['id'] ?>">
-                    <button type="submit" name="action" class="btn-3" value="ban">BANNED</button>
-                </form>
+                <button type="button" class="btn-3" onclick="confirmAction(<?= $res['id'] ?>, 'ban')">Ban</button>
             </div>
-        <?php } elseif($res['status'] == "BANNED"){?>
-        <div class="meal-card_buttons">
-            <form method="post" style="display: inline;">
-                <input type="hidden" name="cafe_id" value="<?= $res['id'] ?>">
-                <button type="submit" name="action" class="btn-3" value="unban">UNBANNED</button>
-            </form>
-        </div>
-        <?php }?>
-
+        <?php } elseif ($res['status'] == "BANNED") { ?>
+            <div class="meal-card_buttons">
+                <button type="button" class="btn-3" onclick="confirmAction(<?= $res['id'] ?>, 'unban')">Unban</button>
+            </div>
+        <?php } ?>
     </li>
     <script>
-        function Restable(resId) {
-            // Redirect to a specific restaurant page using resId
-            window.location.href = 'reservation.php?res_id=' + resId;
-        }
-
         function orderMeal(resId) {
-            // Redirect to meal.php with res_id as a parameter
             window.location.href = 'meal.php?res_id=' + resId;
         }
 
-
+        function confirmAction(cafeId, action) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: `Do you want to ${action} this café?`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, do it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Submit the form using JavaScript
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = ''; // Current page
+                    form.innerHTML = `
+                        <input type="hidden" name="cafe_id" value="${cafeId}">
+                        <input type="hidden" name="action" value="${action}">
+                    `;
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+            });
+        }
     </script>
+
     <style>
         .meal-card__buttons {
             display: flex;
@@ -65,7 +70,7 @@ function render_meal_card($res)
             font-size: 14px;
             font-weight: bold;
             color: #fff;
-            background-color: #e67e22;
+            background: linear-gradient(to right, #ff8c00, #ff5900);
             border: none;
             border-radius: 5px;
             cursor: pointer;
