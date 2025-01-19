@@ -2,12 +2,24 @@
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
+if ($_SESSION['role'] == 'manager') {
+    $stmtUnread = $pdo->prepare("
+    SELECT COUNT(*) AS unread_count
+    FROM notifications n
+    LEFT JOIN cafes c ON n.receiver_id = c.id
+    WHERE c.manager_id = :id AND n.status = 'Unread'
+");
+    $stmtUnread->execute(['id' => $_SESSION['user_id']]);
+    $unreadCount = $stmtUnread->fetch(PDO::FETCH_ASSOC)['unread_count'];
 
-if (isset($_SESSION['user_id'])) {
+}
+else {
     $stmtUnread = $pdo->prepare("SELECT COUNT(*) AS unread_count FROM notifications WHERE receiver_id = :receiver_id AND status = 'unread'");
     $stmtUnread->execute(['receiver_id' => $_SESSION['user_id']]);
     $unreadCount = $stmtUnread->fetchColumn();
 }
+
+
 ?>
 
 <!DOCTYPE html>
@@ -134,7 +146,7 @@ if (isset($_SESSION['user_id'])) {
                 <?php if (isset($_SESSION['user_id'])){?>
                 <li>
                     <a href="/gallery_cafe/public/notification.php" style="position: relative;">
-                        <img src="/gallery_cafe/assets/images/notification_icon.png" alt="Notifications" style="width: 24px; height: 24px;">
+                        <img src="/gallery_cafe/assets/images/bell-regular.svg" alt="Notifications" style="width: 24px; height: 24px;">
                         <?php if ($unreadCount > 0): ?>
                             <span style="
                                     position: absolute;

@@ -4,15 +4,15 @@ require_once '../config/database.php';
 require_once '../includes/auth.php';
 require_once '../includes/header.php';
 
-if ($_SESSION['role'] !== 'manager') {
+if ($_SESSION['role'] == 'manager') {
     $userId = $_SESSION['user_id'];
-    $stmt = $pdo->prepare("SELECT n.* FROM notifications n LEFT JOIN cafes c ON n.receiver_id = c.manager_id WHERE c.idid = :id ORDER BY created_at DESC");
+    $stmt = $pdo->prepare("SELECT n.* FROM notifications n LEFT JOIN cafes c ON n.receiver_id = c.id WHERE c.manager_id = :id AND n.status = 'Unread' ORDER BY created_at DESC");
     $stmt->execute(['id' => $userId]);
     $notifications = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 else {
     $userId = $_SESSION['user_id'];
-    $stmt = $pdo->prepare("SELECT * FROM notifications WHERE receiver_id = :id ORDER BY created_at DESC");
+    $stmt = $pdo->prepare("SELECT * FROM notifications WHERE receiver_id = :id AND status = 'Unread' ORDER BY created_at DESC");
     $stmt->execute(['id' => $userId]);
     $notifications = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
@@ -22,8 +22,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare("UPDATE notifications SET status = 'Read' WHERE id = :id");
         $stmt->execute(['id' => $_POST['notification_id']]);
     }
-    header("Location: notification.php");
-    exit;
 }
 ?>
 

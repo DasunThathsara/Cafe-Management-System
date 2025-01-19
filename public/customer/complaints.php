@@ -20,12 +20,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_complaint'])) 
     $message = "haha";
     if (!empty($receiverId) && !empty($message)) {
         $stmt = $pdo->prepare("
-                INSERT INTO notifications (receiver_id, message, status, created_at)
-                VALUES (:receiver_id, :message, 'Unread', NOW())
+                INSERT INTO notifications (receiver_id, message, status, created_at, sender_id)
+                VALUES (:receiver_id, :message, 'Unread', NOW(), :sender_id)
             ");
         $stmt->execute([
             'receiver_id' => $receiverId,
             'message' => $message,
+            'sender_id' => $_SESSION['user_id']
         ]);
     }
     header("Location: dashboard.php");
