@@ -17,9 +17,14 @@ $totalFoods = $stmt->fetch(PDO::FETCH_ASSOC)['totalFoods'];
 $stmt = $pdo->prepare("SELECT COUNT(*) AS totalTables FROM tables WHERE manager_id = :manager_id");
 $stmt->execute(['manager_id' => $managerId]);
 $totalTables = $stmt->fetch(PDO::FETCH_ASSOC)['totalTables'];
+
+$stmt = $pdo->prepare("SELECT COUNT(*) AS totalComplai FROM complaints c LEFT JOIN cafes ca ON c.cafe_id = ca.id WHERE ca.manager_id = :manager_id");
+$stmt->execute(['manager_id' => $managerId]);
+$totalComplaints = $stmt->fetch(PDO::FETCH_ASSOC)['totalComplai'];
+
+print_r($totalComplaints);
 ?>
 <style>
-    /* Manager Dashboard Styles */
     :root {
         --primary-color: #ff8000;
         --secondary-color: #6c757d;
@@ -32,7 +37,7 @@ $totalTables = $stmt->fetch(PDO::FETCH_ASSOC)['totalTables'];
     .manager-dashboard {
         max-width: 1000px;
         margin: 30px auto;
-        padding: 25px;
+        padding: 50px;
         background-color: var(--card-background);
         border-radius: var(--border-radius);
         box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
@@ -133,9 +138,8 @@ $totalTables = $stmt->fetch(PDO::FETCH_ASSOC)['totalTables'];
         background-color: var(--primary-color);
     }
 
-    /* Responsive Design */
     @media screen and (max-width: 768px) {
-        .manager-dashboard {
+        .admin-dashboard {
             padding: 15px;
             margin: 15px;
         }
@@ -155,7 +159,6 @@ $totalTables = $stmt->fetch(PDO::FETCH_ASSOC)['totalTables'];
         }
     }
 
-    /* Dark Mode Support */
     @media (prefers-color-scheme: dark) {
         :root {
             --background-color: #1e1e1e;
@@ -164,7 +167,7 @@ $totalTables = $stmt->fetch(PDO::FETCH_ASSOC)['totalTables'];
             --primary-color: #ffb24d;
         }
 
-        .manager-dashboard {
+        .admin-dashboard {
             background-color: var(--card-background);
         }
 
@@ -181,12 +184,37 @@ $totalTables = $stmt->fetch(PDO::FETCH_ASSOC)['totalTables'];
         }
     }
 
-    /* Accessibility Enhancements */
     @media (prefers-reduced-motion: reduce) {
-        .manager-dashboard,
+        .admin-dashboard,
         .stat-card {
             transition: none;
         }
+    }
+
+    .admin-dashboard::before {
+        content: 'Admin Panel';
+        position: absolute;
+        top: -20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: var(--primary-color);
+        color: white;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+    }
+
+    @media print {
+        .admin-dashboard {
+            box-shadow: none;
+            border: 1px solid #000;
+        }
+    }
+
+    footer{
+        position: absolute;
+        bottom: 0;
+        width: 100%;
     }
 </style>
 
@@ -194,14 +222,24 @@ $totalTables = $stmt->fetch(PDO::FETCH_ASSOC)['totalTables'];
     <h2 class="dashboard-title">Manager Dashboard</h2>
     <p class="dashboard-welcome">Welcome, <?= htmlspecialchars($_SESSION['username']); ?>!</p>
     <div class="dashboard-stats">
-        <div class="stat-card">
-            <h3>Total Foods</h3>
-            <p class="stat-number"><?= $totalFoods ?></p>
-        </div>
-        <div class="stat-card">
-            <h3>Total Tables</h3>
-            <p class="stat-number"><?= $totalTables ?></p>
-        </div>
+        <a href="view_foods.php" style="text-decoration: none;">
+            <div class="stat-card">
+                <h3>Total Foods</h3>
+                <p class="stat-number"><?= $totalFoods ?></p>
+            </div>
+        </a>
+        <a href="view_tables.php" style="text-decoration: none;">
+            <div class="stat-card">
+                <h3>Total Tables</h3>
+                <p class="stat-number"><?= $totalTables ?></p>
+            </div>
+        </a>
+        <a href="view_complaints.php" style="text-decoration: none;">
+            <div class="stat-card">
+                <h3>Total Complaints</h3>
+                <p class="stat-number"><?= $totalComplaints ?></p>
+            </div>
+        </a>
     </div>
 </div>
 

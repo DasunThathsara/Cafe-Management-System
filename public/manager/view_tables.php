@@ -36,25 +36,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <style>
-    h2 {
+    .title {
         text-align: center;
-        color: #ff8c00;
-        margin: 20px 0;
-        font-size: 2rem;
+        color: #333;
+        padding: 25px 0;
+        font-size: 2.2rem;
+        background: linear-gradient(to right, #ff8c00, #ff5900);
+        color: white;
+        margin: 0;
+        border-radius: 20px 20px 0 0;
     }
 
     table {
         width: 90%;
-        margin: 20px auto;
+        margin: 10px auto;
         border-collapse: collapse;
-        background-color: #fff;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-spacing: 0;
+        background: #fff;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        border: none;;
     }
 
     th, td {
         padding: 12px 15px;
         text-align: center;
-        border: 1px solid #ffc966;
+        border: none;
     }
 
     th {
@@ -64,12 +72,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     td {
-        background-color: #ffebcc;
+        background-color: rgba(255, 235, 204, 0.6);
         color: #555;
     }
 
-    tr:hover {
-        background-color: #ffe0b3;
+    tr:nth-child(even) td {
+        background: rgba(255, 238, 204, 0.21);
     }
 
     .btn-4, button {
@@ -131,10 +139,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <div class="container">
     <div class="cafe-section">
-        <h2>Tables</h2>
+        <h2 class="title">Tables</h2>
         <div class="table-container">
             <div style="display: flex; justify-content: end; margin-right: 45px;">
-                <a class="btn-4" href="./add_table.php">Add Table</a>
+                <a class="btn-4" style="margin-top: 20px" href="./add_table.php">Add Table</a>
             </div>
             <table border="1">
                 <tr>

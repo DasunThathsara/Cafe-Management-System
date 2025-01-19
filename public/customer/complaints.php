@@ -15,6 +15,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_complaint'])) 
         'cafe_id' => $_POST['cafe_id'],
         'complaint_text' => $_POST['complaint']
     ]);
+
+    $receiverId = $_POST['cafe_id'];
+    $message = "haha";
+    if (!empty($receiverId) && !empty($message)) {
+        $stmt = $pdo->prepare("
+                INSERT INTO notifications (receiver_id, message, status, created_at)
+                VALUES (:receiver_id, :message, 'Unread', NOW())
+            ");
+        $stmt->execute([
+            'receiver_id' => $receiverId,
+            'message' => $message,
+        ]);
+    }
     header("Location: dashboard.php");
     exit;
 }

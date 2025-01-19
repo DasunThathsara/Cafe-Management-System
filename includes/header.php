@@ -2,6 +2,12 @@
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
+
+if (isset($_SESSION['user_id'])) {
+    $stmtUnread = $pdo->prepare("SELECT COUNT(*) AS unread_count FROM notifications WHERE receiver_id = :receiver_id AND status = 'unread'");
+    $stmtUnread->execute(['receiver_id' => $_SESSION['user_id']]);
+    $unreadCount = $stmtUnread->fetchColumn();
+}
 ?>
 
 <!DOCTYPE html>
@@ -107,23 +113,45 @@ if (session_status() == PHP_SESSION_NONE) {
                     <li><a href="/gallery_cafe/includes/auth.php?logout=true">Logout</a></li>
                 <?php elseif (isset($_SESSION['user_id']) && $_SESSION['role'] == 'manager'):?>
                     <li>Welcome, <?= htmlspecialchars($_SESSION['username']); ?></li>
-                    <li><a href="../../public/manager/dashboard.php">Home</a></li>
-                    <li><a href="../../public/manager/view_foods.php">Foods</a></li>
-                    <li><a href="../../public/manager/view_orders.php">Orders</a></li>
-                    <li><a href="../../public/manager/view_tables.php">Tables</a></li>
-                    <li><a href="../../public/manager/approve_reservations.php">Reservation</a></li>
-                    <li><a href="../../public/manager/view_complaints.php">Complaints</a></li>
+                    <li><a href="/gallery_cafe/public/manager/dashboard.php">Home</a></li>
+                    <li><a href="/gallery_cafe/public/manager/view_foods.php">Foods</a></li>
+                    <li><a href="/gallery_cafe/public/manager/view_orders.php">Orders</a></li>
+                    <li><a href="/gallery_cafe/public/manager/view_tables.php">Tables</a></li>
+                    <li><a href="/gallery_cafe/public/manager/approve_reservations.php">Reservation</a></li>
+                    <li><a href="/gallery_cafe/public/manager/view_complaints.php">Complaints</a></li>
                     <li><a href="/gallery_cafe/includes/auth.php?logout=true">Logout</a></li>
                 <?php elseif (isset($_SESSION['user_id']) && $_SESSION['role'] == 'admin'): ?>
                     <li>Welcome, <?= htmlspecialchars($_SESSION['username']); ?></li>
-                    <li><a href="../../public/admin/dashboard.php">Home</a></li>
-                    <li><a href="../../public/admin/manage_cafes.php">Cafes</a></li>
-                    <li><a href="../../public/admin/view_complaints.php">Complaints</a></li>
+                    <li><a href="/gallery_cafe/public/admin/dashboard.php">Home</a></li>
+                    <li><a href="/gallery_cafe/public/admin/manage_cafes.php">Cafes</a></li>
+                    <li><a href="/gallery_cafe/public/admin/view_complaints.php">Complaints</a></li>
                     <li><a href="/gallery_cafe/includes/auth.php?logout=true">Logout</a></li>
                 <?php else:?>
-                    <li><a href="../public/login.php">Login</a></li>
-                    <li><a href="../public/register.php">Register</a></li>
+                    <li><a href="/gallery_cafe/public/login.php">Login</a></li>
+                    <li><a href="/gallery_cafe/public/register.php">Register</a></li>
                 <?php endif; ?>
+
+                <?php if (isset($_SESSION['user_id'])){?>
+                <li>
+                    <a href="/gallery_cafe/public/notification.php" style="position: relative;">
+                        <img src="/gallery_cafe/assets/images/notification_icon.png" alt="Notifications" style="width: 24px; height: 24px;">
+                        <?php if ($unreadCount > 0): ?>
+                            <span style="
+                                    position: absolute;
+                                    top: 0;
+                                    right: 0;
+                                    background: red;
+                                    color: white;
+                                    font-size: 12px;
+                                    padding: 2px 5px;
+                                    border-radius: 50%;
+                                ">
+                                    <?= $unreadCount; ?>
+                                </span>
+                        <?php endif; ?>
+                    </a>
+                </li>
+                <?php }?>
             </ul>
         </nav>
     </div>

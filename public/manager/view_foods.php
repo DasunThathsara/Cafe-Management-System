@@ -11,38 +11,46 @@ if ($_SESSION['role'] !== 'manager') {
 }
 
 $managerId = $_SESSION['user_id'];
-$stmt = $pdo->prepare("SELECT * FROM foods WHERE manager_id = :manager_id");
+$stmt = $pdo->prepare("SELECT * FROM foods WHERE manager_id = :manager_id AND status = 'available'");
 $stmt->execute(['manager_id' => $managerId]);
 $foods = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 if (isset($_POST['delete_food'])) {
-    $stmt = $pdo->prepare("DELETE FROM foods WHERE id = :id AND manager_id = :manager_id");
-    $stmt->execute(['id' => $_POST['food_id'], 'manager_id' => $managerId]);
+    $stmt = $pdo->prepare("UPDATE foods SET status = 'DELETED' WHERE id = :id");
+    $stmt->execute(['id' => $_POST['food_id']]);
     header("Location: view_foods.php");
     exit;
 }
 ?>
 
 <style>
-    h2 {
+    .title {
         text-align: center;
-        color: #ff8c00;
-        margin: 20px 0;
-        font-size: 2rem;
+        color: #333;
+        padding: 25px 0;
+        font-size: 2.2rem;
+        background: linear-gradient(to right, #ff8c00, #ff5900);
+        color: white;
+        margin: 0;
+        border-radius: 20px 20px 0 0;
     }
 
     table {
         width: 90%;
-        margin: 20px auto;
+        margin: 10px auto;
         border-collapse: collapse;
-        background-color: #fff;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-spacing: 0;
+        background: #fff;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        border: none;;
     }
 
     th, td {
         padding: 12px 15px;
         text-align: center;
-        border: 1px solid #ffc966;
+        border: none;
     }
 
     th {
@@ -52,12 +60,12 @@ if (isset($_POST['delete_food'])) {
     }
 
     td {
-        background-color: #ffebcc;
+        background-color: rgba(255, 235, 204, 0.6);
         color: #555;
     }
 
-    tr:hover {
-        background-color: #ffe0b3;
+    tr:nth-child(even) td {
+        background: rgba(255, 238, 204, 0.21);
     }
 
     .btn-4, button {
@@ -116,13 +124,12 @@ if (isset($_POST['delete_food'])) {
         overflow: scroll;
     }
 </style>
-
 <div class="container">
     <div class="cafe-section">
-        <h2>Cafés</h2>
+        <h2 class="title">Foods</h2>
         <div class="table-container">
             <div style="display: flex; justify-content: end; margin-right: 45px;">
-                <a class="btn-4" href="./add_food.php">Add Food</a>
+                <a class="btn-4" style="margin-top: 20px" href="./add_food.php">Add Food</a>
             </div>
             <table border="1">
                 <tr>
@@ -142,9 +149,8 @@ if (isset($_POST['delete_food'])) {
                         <td><?= $food['price'] ?></td>
                         <td style="display: grid; align-content: center; justify-content: center">
                             <a class="btn-4" href="./edit_food.php?id=<?php echo $food['id']?>">Edit</a>
-                            <form method="POST">
-                                <input type="text" name="food_id" value="<?php echo $food['id'] ?>" hidden />
-                                <button type="submit" name="delete_food">Delete</button>
+                            <form method="POST" class="delete-form" data-id="<?= $food['id'] ?>">
+                                <button type="button" class="delete-btn">Delete</button>
                             </form>
                         </td>
                     </tr>
@@ -153,5 +159,30 @@ if (isset($_POST['delete_food'])) {
         </div>
     </div>
 </div>
+
+<script>
+    // Add SweetAlert to handle delete confirmation
+    document.querySelectorAll('.delete-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            const form = this.closest('.delete-form');
+            const foodId = form.getAttribute('data-id');
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "This action cannot be undone!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Submit the form if confirmed
+                    form.submit();
+                }
+            });
+        });
+    });
+</script>
 
 <?php require_once '../../includes/footer.php'; ?>
