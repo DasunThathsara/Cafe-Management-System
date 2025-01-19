@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_complaint'])) 
     ]);
 
     $receiverId = $_POST['cafe_id'];
-    $message = "haha";
+    $message = $_POST['complaint'];
     if (!empty($receiverId) && !empty($message)) {
         $stmt = $pdo->prepare("
                 INSERT INTO notifications (receiver_id, message, status, created_at, sender_id)

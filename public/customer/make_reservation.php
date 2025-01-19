@@ -53,6 +53,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['make_reservation'])) 
             'manager_id' => $_POST['manager_id']
         ]);
         echo "Reservation request submitted.";
+
+        $receiverId = $_POST['manager_id'];
+        $message = $_POST['complaint'];
+        if (!empty($receiverId) && !empty($message)) {
+            $stmt = $pdo->prepare("
+                INSERT INTO notifications (receiver_id, message, status, created_at, sender_id)
+                VALUES (:receiver_id, :message, 'Unread', NOW(), :sender_id)
+            ");
+            $stmt->execute([
+                'receiver_id' => $receiverId,
+                'message' => $message,
+                'sender_id' => $_SESSION['user_id']
+            ]);
+        }
     }
 
     header("Location: dashboard.php");
